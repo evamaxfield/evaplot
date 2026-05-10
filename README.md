@@ -40,10 +40,12 @@ evaplot ships six styles, each using a different Google Font (downloaded automat
 
 ### Gallery
 
-
 #### `evaplot_rc` — Roboto Condensed
 
 ![evaplot_rc style example](docs/images/style_evaplot_rc.png)
+
+<details>
+<summary>Other styles</summary>
 
 
 #### `evaplot_fsc` — Fira Sans Condensed
@@ -71,15 +73,44 @@ evaplot ships six styles, each using a different Google Font (downloaded automat
 ![evaplot_tw style example](docs/images/style_evaplot_tw.png)
 
 
+</details>
 
 ## Helper Functions
 
-### `rotate_xticklabels`
+### `set_cat_palette`
 
-Rotates x-axis tick labels to prevent overlap on busy categorical axes.
+Sets the categorical color palette based on the number of categories. Uses `dark2` for n ≤ 8 and `vivid` for larger sets. Returns the full palette as a list of hex strings you can reuse directly for annotations, custom patches, or other matplotlib elements.
 
 ```python
+colors = evaplot.set_cat_palette(n=5)
+# colors → ["#1b9e77", "#d95f02", ...]
+
+# Annotate each bar with its hex color
+for i, bar in enumerate(ax.patches):
+    ax.text(
+        bar.get_x() + bar.get_width() / 2,
+        bar.get_height(),
+        colors[i],
+        ha="center", va="bottom",
+        color=colors[i], fontsize=8,
+    )
+```
+
+![set_cat_palette demo](docs/images/helper_set_cat_palette.png)
+
+---
+
+### `rotate_xticklabels`
+
+Rotates x-axis tick labels to prevent overlap on busy categorical axes. Works on individual `Axes` objects and on every panel of a `FacetGrid` by iterating `g.axes.flat`.
+
+```python
+# single axes
 evaplot.rotate_xticklabels(ax, rotation=45)
+
+# every panel in a FacetGrid
+for ax in g.axes.flat:
+    evaplot.rotate_xticklabels(ax, rotation=45)
 ```
 
 ![rotate_xticklabels demo](docs/images/helper_rotate_xticklabels.png)

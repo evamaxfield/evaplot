@@ -52,32 +52,67 @@ def _generate_style_plots(output_dir: Path) -> list[dict[str, str]]:
     return results
 
 
+def _generate_color_palette_plot(output_dir: Path) -> str:
+    evaplot.set_style("evaplot_rc")
+    fig, axes = plt.subplots(1, 2, figsize=(14, 5))
+    for ax, n in zip(axes, [5, 10]):
+        colors = evaplot.set_cat_palette(n=n)
+        categories = [f"Cat {i + 1}" for i in range(n)]
+        values = [55 + (i * 13 + n * 3) % 35 for i in range(n)]
+        for i in range(n):
+            ax.bar(i, values[i], color=colors[i])
+            ax.text(
+                i,
+                values[i] + 0.8,
+                colors[i],
+                ha="center",
+                va="bottom",
+                color=colors[i],
+                fontsize=7,
+                rotation=90,
+            )
+        ax.set_xticks(range(n))
+        ax.set_xticklabels(categories)
+        palette_name = "dark2" if n <= 8 else "vivid"
+        ax.set_title(f"set_cat_palette(n={n})  →  {palette_name} palette")
+        ax.set_xlabel("")
+        ax.set_ylabel("Value")
+    fig.tight_layout()
+    out = output_dir / "helper_set_cat_palette.png"
+    fig.savefig(out, bbox_inches="tight", dpi=150)
+    plt.close("all")
+    typer.echo(f"  saved {out}")
+    return str(out)
+
+
 def _generate_helper_plots(output_dir: Path) -> dict[str, str]:
     evaplot.set_style("evaplot_rc")
     helpers: dict[str, str] = {}
 
-    # rotate_xticklabels
-    long_cats = [
-        "Very Long Label A",
-        "Very Long Label B",
-        "Very Long Label C",
-        "Very Long Label D",
-        "Very Long Label E",
-        "Very Long Label F",
-        "Very Long Label G",
-        "Very Long Label H",
-    ]
-    values = [23, 45, 12, 67, 34, 89, 56, 44]
-    rotate_data = pd.DataFrame({"Category": long_cats, "Value": values})
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 5))
-    sns.barplot(data=rotate_data, x="Category", y="Value", ax=ax1)
-    ax1.set_title("Default (overlapping labels)")
-    sns.barplot(data=rotate_data, x="Category", y="Value", ax=ax2)
-    ax2.set_title("After rotate_xticklabels(ax, 45)")
-    evaplot.rotate_xticklabels(ax2, rotation=45)
-    fig.tight_layout()
+    # set_cat_palette
+    helpers["set_cat_palette"] = _generate_color_palette_plot(output_dir)
+
+    # rotate_xticklabels — facet grid with multiple rows and columns
+    long_cats = ["Long Label A", "Long Label B", "Long Label C", "Long Label D"]
+    regions = ["North", "South"]
+    years = ["2023", "2024"]
+    rows = []
+    base_vals = [42, 67, 31, 85, 54, 73, 28, 91, 38, 62, 47, 79, 55, 68, 33, 88]
+    idx = 0
+    for year in years:
+        for region in regions:
+            for cat in long_cats:
+                rows.append({"Category": cat, "Value": base_vals[idx % len(base_vals)], "Region": region, "Year": year})
+                idx += 1
+    rotate_data = pd.DataFrame(rows)
+    g = sns.FacetGrid(rotate_data, col="Region", row="Year", height=3.2, aspect=1.3)
+    g.map_dataframe(sns.barplot, x="Category", y="Value")
+    for ax in g.axes.flat:
+        evaplot.rotate_xticklabels(ax, rotation=45)
+    g.set_titles(col_template="{col_name}", row_template="{row_name}")
+    evaplot.adjust_layout(fig=g.fig, hspace=0.6, wspace=0.3)
     out = output_dir / "helper_rotate_xticklabels.png"
-    fig.savefig(out, bbox_inches="tight", dpi=150)
+    g.fig.savefig(out, bbox_inches="tight", dpi=150)
     plt.close("all")
     helpers["rotate_xticklabels"] = str(out)
     typer.echo(f"  saved {out}")
