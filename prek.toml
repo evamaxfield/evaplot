@@ -16,5 +16,5 @@ hooks = [
   {
     id = "pyrefly-check",
     pass_filenames = false,
-    additional_dependencies = ["matplotlib", "seaborn", "requests", "fonttools", "colormaps"] },
+    additional_dependencies = ["matplotlib", "seaborn", "requests", "fonttools", "colormaps", "typer", "jinja2", "pandas"] },
 ]

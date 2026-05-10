@@ -6,13 +6,13 @@ import matplotlib
 
 matplotlib.use("Agg")
 
-import matplotlib.pyplot as plt  # noqa: E402
-import pandas as pd  # noqa: E402
-import seaborn as sns  # noqa: E402
-import typer  # noqa: E402
-from jinja2 import Environment, FileSystemLoader  # noqa: E402
+import matplotlib.pyplot as plt
+import pandas as pd
+import seaborn as sns
+import typer
+from jinja2 import Environment, FileSystemLoader
 
-import evaplot  # noqa: E402
+import evaplot
 
 app = typer.Typer()
 
@@ -55,7 +55,7 @@ def _generate_style_plots(output_dir: Path) -> list[dict[str, str]]:
 def _generate_color_palette_plot(output_dir: Path) -> str:
     evaplot.set_style("evaplot_rc")
     fig, axes = plt.subplots(1, 2, figsize=(14, 5))
-    for ax, n in zip(axes, [5, 10]):
+    for ax, n in zip(axes, [5, 10], strict=False):
         colors = evaplot.set_cat_palette(n=n)
         categories = [f"Cat {i + 1}" for i in range(n)]
         values = [55 + (i * 13 + n * 3) % 35 for i in range(n)]
@@ -102,7 +102,14 @@ def _generate_helper_plots(output_dir: Path) -> dict[str, str]:
     for year in years:
         for region in regions:
             for cat in long_cats:
-                rows.append({"Category": cat, "Value": base_vals[idx % len(base_vals)], "Region": region, "Year": year})
+                rows.append(
+                    {
+                        "Category": cat,
+                        "Value": base_vals[idx % len(base_vals)],
+                        "Region": region,
+                        "Year": year,
+                    }
+                )
                 idx += 1
     rotate_data = pd.DataFrame(rows)
     g = sns.FacetGrid(rotate_data, col="Region", row="Year", height=3.2, aspect=1.3)

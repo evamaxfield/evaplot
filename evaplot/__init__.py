@@ -41,9 +41,9 @@ __all__ = [
 
 # Register bundled stylesheets with matplotlib
 _data_path = str(files("evaplot") / "data")
-_opinionated_styles = mpl.style.core.read_style_directory(_data_path)
+_opinionated_styles = mpl.style.core.read_style_directory(_data_path)  # type: ignore[attr-defined]
 mpl.style.reload_library()  # reload first — clears library before we add custom styles
-mpl.style.core.update_nested_dict(mpl.style.library, _opinionated_styles)
+mpl.style.core.update_nested_dict(mpl.style.library, _opinionated_styles)  # type: ignore[attr-defined]
 mpl.style.available[:] = sorted(mpl.style.library.keys())
 
 # Register bundled fonts

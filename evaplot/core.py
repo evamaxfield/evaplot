@@ -7,11 +7,10 @@ from tempfile import NamedTemporaryFile
 import colormaps as cmaps
 import matplotlib as mpl
 import matplotlib.pyplot as plt
-import seaborn as sns
-from matplotlib import font_manager as fm
-
 import requests
+import seaborn as sns
 from fontTools import ttLib
+from matplotlib import font_manager as fm
 
 log = logging.getLogger(__name__)
 
@@ -69,7 +68,10 @@ def download_font_with_retry(font: str, retries: int = 3, delay: int = 3) -> Non
             if attempt < retries - 1:
                 log.debug(
                     "Attempt %d to download %s failed: %s. Retrying in %ds.",
-                    attempt + 1, font, e, delay,
+                    attempt + 1,
+                    font,
+                    e,
+                    delay,
                 )
                 time.sleep(delay)
             else:
@@ -116,7 +118,7 @@ def set_cat_palette(n: int = 8) -> list[str]:
     Uses cmaps.dark2 for n <= 8, cmaps.vivid for larger sets.
     Returns the palette as a list of hex color strings for reuse in matplotlib.
     """
-    palette = cmaps.vivid if n > 8 else cmaps.dark2
+    palette = cmaps.vivid if n > 8 else cmaps.dark2  # type: ignore[attr-defined]
     hex_colors = [mpl.colors.to_hex(c) for c in palette.colors]
     sns.set_palette(hex_colors)
     return hex_colors
@@ -143,7 +145,7 @@ def rotate_xticklabels(ax: mpl.axes.Axes, rotation: int = 45, ha: str = "right")
 
 
 def move_legend(
-    obj: object,
+    obj: mpl.axes.Axes | mpl.figure.Figure | sns.axisgrid.Grid,
     bbox_to_anchor: tuple[float, float] = (0.4, -0.0001),
     loc: str = "upper center",
     ncol: int = 3,

@@ -103,6 +103,7 @@ lint.extend-ignore = [
 "**/notebooks/*" = ["E501", "B018"]
 "**/tests/*.py" = ["D"]
 "**/migrations/*.py" = ["D"]
+"evaplot/bin/*.py" = ["B008"]
 
 [tool.ty.src]
 exclude = [".github", ".pre-commit-config.yaml", "pyproject.toml"]
