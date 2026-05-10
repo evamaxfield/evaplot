@@ -30,47 +30,18 @@ evaplot ships six styles, each using a different Google Font (downloaded automat
 
 | Style | Font |
 |---|---|
-| `evaplot_rc` | Roboto Condensed |
-| `evaplot_fsc` | Fira Sans Condensed |
-| `evaplot_j` | Jost |
-| `evaplot_m` | Montserrat |
-| `evaplot_sg` | Space Grotesk |
-| `evaplot_tw` | Titillium Web |
-
+{% for s in styles -%}
+| `{{ s.name }}` | {{ s.font }} |
+{% endfor %}
 
 ### Gallery
 
+{% for s in styles %}
+#### `{{ s.name }}` — {{ s.font }}
 
-#### `evaplot_rc` — Roboto Condensed
+![{{ s.name }} style example]({{ s.image }})
 
-![evaplot_rc style example](docs/images/style_evaplot_rc.png)
-
-
-#### `evaplot_fsc` — Fira Sans Condensed
-
-![evaplot_fsc style example](docs/images/style_evaplot_fsc.png)
-
-
-#### `evaplot_j` — Jost
-
-![evaplot_j style example](docs/images/style_evaplot_j.png)
-
-
-#### `evaplot_m` — Montserrat
-
-![evaplot_m style example](docs/images/style_evaplot_m.png)
-
-
-#### `evaplot_sg` — Space Grotesk
-
-![evaplot_sg style example](docs/images/style_evaplot_sg.png)
-
-
-#### `evaplot_tw` — Titillium Web
-
-![evaplot_tw style example](docs/images/style_evaplot_tw.png)
-
-
+{% endfor %}
 
 ## Helper Functions
 
@@ -82,7 +53,7 @@ Rotates x-axis tick labels to prevent overlap on busy categorical axes.
 evaplot.rotate_xticklabels(ax, rotation=45)
 ```
 
-![rotate_xticklabels demo](docs/images/helper_rotate_xticklabels.png)
+![rotate_xticklabels demo]({{ helpers.rotate_xticklabels }})
 
 ---
 
@@ -94,7 +65,7 @@ Moves a seaborn legend with sensible bottom-centered defaults.
 evaplot.move_legend(ax_or_facetgrid, bbox_to_anchor=(0.5, -0.15), loc="upper center", ncol=3)
 ```
 
-![move_legend demo](docs/images/helper_move_legend.png)
+![move_legend demo]({{ helpers.move_legend }})
 
 ---
 
@@ -106,7 +77,7 @@ Adjusts subplot spacing and applies `tight_layout` in one call. Pass `g.fig` for
 evaplot.adjust_layout(fig=fig, hspace=0.35, wspace=0.3)
 ```
 
-![adjust_layout demo](docs/images/helper_adjust_layout.png)
+![adjust_layout demo]({{ helpers.adjust_layout }})
 
 ---
 
@@ -124,8 +95,8 @@ evaplot.set_facet_col_titles(g, "{col_name}")
 <td align="center"><b>After</b></td>
 </tr>
 <tr>
-<td><img src="docs/images/helper_set_facet_col_titles_before.png" alt="set_facet_col_titles before"></td>
-<td><img src="docs/images/helper_set_facet_col_titles_after.png" alt="set_facet_col_titles after"></td>
+<td><img src="{{ helpers.set_facet_col_titles_before }}" alt="set_facet_col_titles before"></td>
+<td><img src="{{ helpers.set_facet_col_titles_after }}" alt="set_facet_col_titles after"></td>
 </tr>
 </table>
 

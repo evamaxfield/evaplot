@@ -1,17 +1,17 @@
 import matplotlib
 import matplotlib.style
 
-import opinionated_v2
-from opinionated_v2.core import update_matplotlib_fonts
+import evaplot
+from evaplot.core import update_matplotlib_fonts
 
 
 def test_import() -> None:
-    assert opinionated_v2.__version__ != ""
+    assert evaplot.__version__ != ""
 
 
 def test_styles_registered() -> None:
-    opinionated_styles = [s for s in matplotlib.style.available if "opinionated" in s]
-    assert len(opinionated_styles) > 0, "No opinionated styles found in matplotlib.style.available"
+    evaplot_styles = [s for s in matplotlib.style.available if "evaplot" in s]
+    assert len(evaplot_styles) > 0, "No evaplot styles found in matplotlib.style.available"
 
 
 def test_update_matplotlib_fonts_runs() -> None:
@@ -19,5 +19,5 @@ def test_update_matplotlib_fonts_runs() -> None:
 
 
 def test_public_api() -> None:
-    for name in opinionated_v2.__all__:
-        assert hasattr(opinionated_v2, name), f"Missing public symbol: {name}"
+    for name in evaplot.__all__:
+        assert hasattr(evaplot, name), f"Missing public symbol: {name}"

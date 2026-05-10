@@ -34,6 +34,13 @@ test:
 	pytest tests/ --no-header -q
 
 ###############################################################################
+# Documentation
+
+# regenerate README.md from the Jinja2 template
+generate-readme:
+	evaplot-generate-readme
+
+###############################################################################
 # Release and versioning
 
 # tag a new version

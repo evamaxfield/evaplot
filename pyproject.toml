@@ -9,7 +9,7 @@ build-backend = "setuptools.build_meta"
 # package basics
 # https://peps.python.org/pep-0621/
 [project]
-name = "opinionated-v2"
+name = "evaplot"
 description = "An up-to-date and slimmed down library for opinionated plotting styles with seaborn and matplotlib"
 keywords = []
 readme = "README.md"
@@ -38,21 +38,22 @@ dependencies = [
 # https://peps.python.org/pep-0621/#dependencies-optional-dependencies
 [project.optional-dependencies]
 dev = [
+  "jinja2>=3",
   "prek>=0.3",
   "pytest",
+  "typer>=0.12",
 ]
 
 [project.urls]
-Homepage = "https://github.com/evamaxfield/opinionated-v2"
-"Bug Tracker" = "https://github.com/evamaxfield/opinionated-v2/issues"
+Homepage = "https://github.com/evamaxfield/evaplot"
+"Bug Tracker" = "https://github.com/evamaxfield/evaplot/issues"
 Documentation = "https://evamaxfield.github.io/opinionated-v2"
-"User Support" = "https://github.com/evamaxfield/opinionated-v2/issues"
+"User Support" = "https://github.com/evamaxfield/evaplot/issues"
 
 # entry points
-# example
-# rs-graph-prelinked-dataset-ingestion = "rs_graph.bin.prelinked_dataset_ingestion:main"
 # https://peps.python.org/pep-0621/#entry-points
-# [project.entry-points."console_scripts"]
+[project.scripts]
+evaplot-generate-readme = "evaplot.bin.generate_readme:app"
 
 # build settings
 # https://setuptools.pypa.io/en/latest/userguide/pyproject_config.html

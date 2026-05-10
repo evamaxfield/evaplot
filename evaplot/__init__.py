@@ -1,4 +1,4 @@
-"""Top-level package for opinionated_v2."""
+"""Top-level package for evaplot."""
 
 from importlib.metadata import PackageNotFoundError, version
 from importlib.resources import files
@@ -6,7 +6,7 @@ from importlib.resources import files
 import matplotlib as mpl
 
 try:
-    __version__ = version("opinionated-v2")
+    __version__ = version("evaplot")
 except PackageNotFoundError:
     __version__ = "uninstalled"
 
@@ -40,10 +40,11 @@ __all__ = [
 ]
 
 # Register bundled stylesheets with matplotlib
-_data_path = str(files("opinionated_v2") / "data")
+_data_path = str(files("evaplot") / "data")
 _opinionated_styles = mpl.style.core.read_style_directory(_data_path)
+mpl.style.reload_library()  # reload first — clears library before we add custom styles
 mpl.style.core.update_nested_dict(mpl.style.library, _opinionated_styles)
-mpl.style.reload_library()
+mpl.style.available[:] = sorted(mpl.style.library.keys())
 
 # Register bundled fonts
 update_matplotlib_fonts()

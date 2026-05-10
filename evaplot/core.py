@@ -15,7 +15,7 @@ from fontTools import ttLib
 
 log = logging.getLogger(__name__)
 
-_FONT_CACHE_DIR = Path(mpl.get_cachedir()) / "opinionated_fonts"
+_FONT_CACHE_DIR = Path(mpl.get_cachedir()) / "evaplot_fonts"
 
 
 ###############################################################################
@@ -77,6 +77,23 @@ def download_font_with_retry(font: str, retries: int = 3, delay: int = 3) -> Non
                 raise
 
 
+def show_installed_fonts() -> list[str]:
+    """Return a list of font family names installed in the evaplot cache."""
+    if not _FONT_CACHE_DIR.exists():
+        return []
+    names = []
+    for font_file in _FONT_CACHE_DIR.iterdir():
+        if font_file.suffix in (".ttf", ".otf"):
+            try:
+                tt = ttLib.TTFont(str(font_file))
+                name = tt["name"].getDebugName(1)
+                if name:
+                    names.append(name)
+            except Exception:
+                pass
+    return sorted(set(names))
+
+
 def update_matplotlib_fonts() -> None:
     """Register all fonts from the download cache with matplotlib."""
     if not _FONT_CACHE_DIR.exists():
@@ -105,12 +122,12 @@ def set_cat_palette(n: int = 8) -> list[str]:
     return hex_colors
 
 
-def set_style(style: str = "opinionated_rc", n: int = 8) -> None:
-    """Apply the opinionated matplotlib style and categorical palette.
+def set_style(style: str = "evaplot_rc", n: int = 8) -> None:
+    """Apply the evaplot matplotlib style and categorical palette.
 
     Equivalent to:
         plt.style.use(style)
-        opinionated_v2.set_cat_palette(n)
+        evaplot.set_cat_palette(n)
     """
     plt.style.use(style)
     set_cat_palette(n)
