@@ -145,6 +145,12 @@ evaplot.set_facet_col_titles(g, "{col_name}")
 | `update_matplotlib_fonts()` | Register all cached fonts with matplotlib |
 | `download_googlefont(font, add_to_cache)` | Download a Google Font to the cache |
 
+## Credits
+
+evaplot builds on [opinionated](https://github.com/MNoichl/opinionated) by Maximilian Noichl.
+
+> Noichl, M. (2023). Opinionated: Simple, Clean Stylesheets for Plotting with Matplotlib and Seaborn (Version 0.0.2.8) [Computer software]. https://doi.org/10.5281/zenodo.8329780
+
 ## License
 
 MPLv2 License
