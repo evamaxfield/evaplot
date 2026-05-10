@@ -1,0 +1,8 @@
+default_context:
+    author_name: "Eva Maxfield Brown"
+    author_email: "evamaxfieldbrown@gmail.com"
+    hosting_github_username_or_org: "evamaxfield"
+    project_name: "opinionated-v2"
+    project_slug: "opinionated-v2"
+    python_slug: "opinionated_v2"
+    project_short_description: "An up-to-date and slimmed down library for opinionated plotting styles with seaborn and matplotlib"
