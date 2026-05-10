@@ -74,7 +74,7 @@ def _generate_color_palette_plot(output_dir: Path) -> str:
         ax.set_xticks(range(n))
         ax.set_xticklabels(categories)
         palette_name = "dark2" if n <= 8 else "vivid"
-        ax.set_title(f"set_cat_palette(n={n})  →  {palette_name} palette")
+        ax.set_title(f"set_cat_palette(n={n}) ->  {palette_name} palette")
         ax.set_xlabel("")
         ax.set_ylabel("Value")
     fig.tight_layout()
