@@ -40,6 +40,7 @@ dependencies = [
 dev = [
   "jinja2>=3",
   "prek>=0.3",
+  "pyrefly>=1.2.0",
   "pytest",
   "typer>=0.12",
 ]
@@ -104,3 +105,6 @@ lint.extend-ignore = [
 "**/tests/*.py" = ["D"]
 "**/migrations/*.py" = ["D"]
 "evaplot/bin/*.py" = ["B008"]
+
+[tool.pyrefly]
+project-excludes = []
