@@ -2,6 +2,7 @@
 
 from importlib.metadata import PackageNotFoundError, version
 from importlib.resources import files
+from pathlib import Path
 
 import matplotlib as mpl
 
@@ -39,11 +40,18 @@ __all__ = [
     "update_matplotlib_fonts",
 ]
 
-# Register bundled stylesheets with matplotlib
-_data_path = str(files("evaplot") / "data")
-_opinionated_styles = mpl.style.core.read_style_directory(_data_path)  # type: ignore[attr-defined]
+# Register bundled stylesheets with matplotlib.
+# matplotlib.style.core.read_style_directory / update_nested_dict were deprecated in
+# matplotlib 3.11 (removal planned for 3.13), so we read and merge the bundled .mplstyle
+# files ourselves using the stable public `rc_params_from_file` API instead.
+_data_path = Path(str(files("evaplot") / "data"))
+_opinionated_styles = {
+    _style_path.stem: mpl.rc_params_from_file(_style_path, use_default_template=False)
+    for _style_path in _data_path.glob("*.mplstyle")
+}
 mpl.style.reload_library()  # reload first — clears library before we add custom styles
-mpl.style.core.update_nested_dict(mpl.style.library, _opinionated_styles)  # type: ignore[attr-defined]
+for _style_name, _style_rc in _opinionated_styles.items():
+    mpl.style.library.setdefault(_style_name, mpl.RcParams()).update(_style_rc)
 mpl.style.available[:] = sorted(mpl.style.library.keys())
 
 # Register bundled fonts
